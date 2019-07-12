@@ -1,6 +1,22 @@
-from flask import render_template, flash, redirect
+import os # For connecting to iRODS
+import ssl # For connecting to iRODS
+from flask import render_template, flash, redirect, request
 from app import app
 from app.forms import LoginForm, NewCollectionForm, ModifyCollectionForm, SearchForm
+#----------------- Establishing Connection ----------------------
+from irods.session import iRODSSession
+try:
+	env_file=os.environ['IRODS_ENVIRONMENT_FILE']
+except KeyError:
+	env_file = os.path.expanduser('~/.irods/irods_environment.json')
+
+ssl_context = ssl.create_default_context(purpose=ssl.Purpose.SERVER_AUTH, cafile=None, capath=None, cadata=None)
+ssl_settings = {'ssl_context': ssl_context}
+with iRODSSession(irods_env_file=env_file, **ssl_settings) as session:
+	with iRODSSession(irods_env_file=env_file) as session:
+		pass
+#----------------- END CONNECTION ATTEMPT---------------------------
+
 @app.route('/')
 @app.route('/index')
 
@@ -30,6 +46,8 @@ def login():
 @app.route('/newCollection')
 def newCollection():
    form = NewCollectionForm()
+#---Creating new collection-----------
+   coll = session.collections.create("/tempZone/home/rods/TestDir")
    return render_template('newCollection.html', title='New Collection', form=form)
 
 @app.route('/modifyCollection')
