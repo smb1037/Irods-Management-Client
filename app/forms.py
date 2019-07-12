@@ -2,7 +2,7 @@ import os #For connecting to iRODS
 import ssl # For connecting to iRODS
 from irods.session import iRODSSession # Getting the iRODS session
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField, TextField
 from wtforms.validators import DataRequired
 
 #------------Trying to connect to iRODS---------------

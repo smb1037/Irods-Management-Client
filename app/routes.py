@@ -43,12 +43,18 @@ def login():
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
 
-@app.route('/newCollection')
+@app.route('/newCollection', methods=['GET', 'POST'])
 def newCollection():
-   form = NewCollectionForm()
-#---Creating new collection-----------
-   coll = session.collections.create("/tempZone/home/rods/TestDir")
+   form=NewCollectionForm(request.form)
+   if request.method=='POST':
+      collectionName = request.form['collectionName']
+      coll = session.collections.create("/tempZone/home/rods/"+collectionName)
    return render_template('newCollection.html', title='New Collection', form=form)
+
+#--------------THIS IS THE WORKING CODE--------------------
+#form = NewCollectionForm()
+   #coll = session.collections.create("/tempZone/home/rods/pleaseWork")
+   #return render_template('newCollection.html', title='New Collection', form=form)
 
 @app.route('/modifyCollection')
 def modifyCollection():
