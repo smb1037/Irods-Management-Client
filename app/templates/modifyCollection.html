@@ -7,7 +7,9 @@
         <p>
             {{ form.attributesAndValues.label }}<br>
             {{ form.attributesAndValues(size=32) }}
+	    {{ form.attributesAndValues(size=32) }}
         </p>
+	<p><input type=file name=file>
         <p>{{ form.submit() }}</p>
     </form>
 {% endblock %}
