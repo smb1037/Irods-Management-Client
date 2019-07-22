@@ -4,9 +4,16 @@
     <h1>Search</h1>
     <form action="" method="post" novalidate>
         <p>
+		<ul>
+		{% for i in range(0, len) %}
+			<li>{{ collectionList[i] }}</li>
+		{% endfor %}
+	  	</ul>
+        </p>
+
+        <p>
             {{ form.searchCollection.label }}<br>
             {{ form.searchCollection(size=32) }}
         <p>{{ form.submit() }}</p>
-        <p>{{ form.showFields() }}</p>
     </form>
 {% endblock %}

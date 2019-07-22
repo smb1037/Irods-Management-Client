@@ -32,6 +32,7 @@ def index():
 def login():
    form=LoginForm(request.form)
 #trying to authenticate users.
+   authenticated=True
    if request.method=='POST':
       hostName=request.form['hostName']
       portNumber=request.form['portNumber']
@@ -41,16 +42,9 @@ def login():
       try:
          with iRODSSession(host=hostName, port=portNumber, user=userName, password=password, zone=irodsZone) as session:
             pass
+            return render_template('search.html', title='Sign In', form=form)
       except:
          flash('Login Failed')
-#   if current_user.is_authenticated:
-#      return redirect(url_for('index'))
-#    form = LoginForm()
-#    if form.validate_on_submit():
-#        flash('Login requested for user {}'.format(
-#            form.username.data))
-#      return redirect(url_for('index'))
-
    return render_template('login.html', title='Sign In', form=form)
 
 @app.route('/newCollection', methods=['GET', 'POST'])
@@ -81,8 +75,18 @@ def modifyCollection():
 
    return render_template('modifyCollection.html', title='Modify Collection', form=form)
 
-@app.route('/search')
+@app.route('/search', methods=['GET', 'POST'])
 #@login_required
 def search():
-   form = SearchForm()
-   return render_template('search.html', title='Search', form=form)
+   form = SearchForm(request.form)
+   if request.method == 'GET':
+      parentColl=session.collections.get("/tempZone/home/rods")
+      collectionList = parentColl.subcollections
+      return render_template('search.html', title='Search', form=form, len=len(collectionList),collectionList=collectionList)
+   if request.method=='POST':
+      searchCollName=request.form['searchCollection']
+      coll = session.collections.get("/tempZone/home/rods/"+searchCollName)
+      collObjects=coll.data_objects
+      return render_template('displayCollection.html', form=form, len=len(collObjects),  collObjects=collObjects)
+   else:
+      return render_template('search.html', title='Search', form=form)
