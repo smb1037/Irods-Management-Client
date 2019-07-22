@@ -6,6 +6,17 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Integ
 from wtforms.validators import DataRequired
 
 #------------Trying to connect to iRODS---------------
+try:
+	env_file=os.environ['IRODS_ENVIRONMENT_FILE']
+except KeyError:
+	env_file = os.path.expanduser('~/.irods/irods_environment.json')
+
+ssl_context = ssl.create_default_context(purpose=ssl.Purpose.SERVER_AUTH, cafile=None, capath=None, cadata=None)
+ssl_settings = {'ssl_context': ssl_context}
+with iRODSSession(irods_env_file=env_file, **ssl_settings) as session:
+	with iRODSSession(irods_env_file=env_file) as session:
+		pass
+
 #------------------ Connection block end ----------------------------
 
 
@@ -23,9 +34,12 @@ class NewCollectionForm(FlaskForm):
    submit = SubmitField('Create new collection')
 
 class ModifyCollectionForm(FlaskForm):
-   attributesAndValues = StringField('Attributes and values:', validators=[DataRequired()])
+   modifyCollectionName = StringField('Name of Collection: ', validators=[DataRequired()])
+   Attribute = StringField('Attribute:', validators=[DataRequired()])
+   Value = StringField('Values:', validators=[DataRequired()])
    submit = SubmitField('Modify Collection')
 
 class SearchForm(FlaskForm):
-   collect = SelectField(u'Collections' , choices = [('number1', 'NUMBER1'), ('number2', 'NUMBER2')])
+   searchCollection = StringField('Enter Collection Name: ', validators=[DataRequired()])
    submit = SubmitField('Submit')
+   showFields = SubmitField('Show Collections')

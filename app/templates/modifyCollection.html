@@ -5,9 +5,13 @@
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
-            {{ form.attributesAndValues.label }}<br>
-            {{ form.attributesAndValues(size=32) }}
-	    {{ form.attributesAndValues(size=32) }}
+            {{ form.modifyCollectionName.label }}<br>
+            {{ form.modifyCollectionName(size=32) }}<br>
+
+            {{ form.Attribute.label }}
+            {{ form.Attribute(size=32) }}<br>
+            {{ form.Value.label }}
+	    {{ form.Value(size=32) }}
         </p>
 	<p><input type=file name=file>
         <p>{{ form.submit() }}</p>

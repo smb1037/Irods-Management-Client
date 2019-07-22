@@ -40,6 +40,14 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for messages in messages %}
+				<p>{{ message }}</p>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+
         <p>{{ form.submit() }}</p>
     </form>
 {% endblock %}
