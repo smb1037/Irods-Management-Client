@@ -19,7 +19,7 @@ with iRODSSession(irods_env_file=env_file, **ssl_settings) as session:
 
 #------------------ Connection block end ----------------------------
 
-
+#Used to login to iRODs
 class LoginForm(FlaskForm):
     hostName = StringField('Enter the host name (DNS) of the server to connect to:', validators=[DataRequired()])
     portNumber = IntegerField('Please enter the port number:', validators=[DataRequired()])
@@ -27,18 +27,18 @@ class LoginForm(FlaskForm):
     irodsZone = StringField('Enter your irods zone:', validators=[DataRequired()])
     password = PasswordField('Enter your current irods password:', validators=[DataRequired()])
     submit = SubmitField('Sign In')
-
+#Used to create a new collection
 class NewCollectionForm(FlaskForm):
    collectionName = StringField('Enter collection name:', validators=[DataRequired()])
    attributesAndValues = StringField('Attributes and values:', validators=[DataRequired()])
    submit = SubmitField('Create new collection')
-
+#Used to modify a collection
 class ModifyCollectionForm(FlaskForm):
    modifyCollectionName = StringField('Name of Collection: ', validators=[DataRequired()])
    Attribute = StringField('Attribute:', validators=[DataRequired()])
    Value = StringField('Values:', validators=[DataRequired()])
    submit = SubmitField('Modify Collection')
-
+#Used to search collections
 class SearchForm(FlaskForm):
    searchCollection = StringField('Enter Collection Name: ', validators=[DataRequired()])
    submit = SubmitField('Submit')

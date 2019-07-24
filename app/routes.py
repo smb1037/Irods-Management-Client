@@ -3,9 +3,8 @@ import ssl # For connecting to iRODS
 from flask import render_template, flash, redirect, request, url_for, send_from_directory
 from app import app
 from app.forms import LoginForm, NewCollectionForm, ModifyCollectionForm, SearchForm
+#not currently working TODO
 from flask_login import UserMixin, login_required, current_user, login_user
-#File upload
-#def allowed
 
 #----------------- Establishing Connection ----------------------
 from irods.session import iRODSSession
@@ -23,6 +22,7 @@ with iRODSSession(irods_env_file=env_file, **ssl_settings) as session:
 
 @app.route('/')
 @app.route('/index')
+#not working currently TODO
 #@login_required
 
 def index():
@@ -48,6 +48,7 @@ def login():
    return render_template('login.html', title='Sign In', form=form)
 
 @app.route('/newCollection', methods=['GET', 'POST'])
+#Not working currently. TODO
 #@login_required
 def newCollection():
    form=NewCollectionForm(request.form)
